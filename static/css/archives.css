@@ -1,0 +1,160 @@
+/* 时间轴容器样式 */
+.archives-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* 时间轴卡片样式 */
+.archive-card {
+    display: flex;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.archive-bubble {
+
+    border-radius: 0.5rem;
+    padding: 0.8rem !important;
+    flex: 1;
+    word-wrap: break-word;
+    position: relative;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); */
+}
+
+.archive-content {
+    width: 100%;
+    line-height: 1.5;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.archive-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.3rem;
+}
+
+.archive-title {
+    font-weight: 500;
+    color: #333;
+    font-size: 1rem;
+    text-decoration: none;
+}
+
+.archive-title:hover {
+    color: #0366d6;
+    text-decoration: none;
+}
+
+.archive-meta {
+    font-size: 0.8rem;
+    color: #8186a2;
+}
+
+/* 年份标题样式 */
+.archive-year {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin: 1.5rem 0 1rem;
+    color: #333;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* 月份标题样式 */
+.archive-month {
+    font-size: 1.1rem;
+    margin: 1rem 0 0.8rem;
+    color: #666;
+    font-weight: 500;
+    padding-left: 0.5rem;
+    border-left: 3px solid #0366d6;
+}
+
+/* 时间轴左侧装饰 */
+.archive-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 0.8rem;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 0.8rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+/* 加载更多样式 */
+.loading-more {
+    text-align: center;
+    padding: 0.8rem;
+}
+
+.loading-text {
+    color: #999;
+    font-size: 0.9rem;
+}
+
+.no-archives, .error-message {
+    text-align: center;
+    color: #999;
+    padding: 1rem;
+}
+
+/* 页面标题 */
+.page-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #333;
+    margin: 0 0 1.5rem;
+    text-align: center;
+}
+
+/* 响应式布局 */
+@media screen and (max-width: 768px) {
+    .archives-container {
+        padding: 0.8rem;
+        margin: 0.5rem;
+    }
+    
+    .archive-card {
+        margin-bottom: 0.8rem;
+    }
+    
+    .archive-year {
+        font-size: 1.2rem;
+        margin: 1.2rem 0 0.8rem;
+    }
+    
+    .archive-month {
+        font-size: 1rem;
+        margin: 1rem 0 0.6rem;
+    }
+    
+    .archive-avatar {
+        width: 28px;
+        height: 28px;
+        margin-right: 0.6rem;
+    }
+    
+    .archive-bubble {
+        padding: 0.6rem !important;
+    }
+    
+    .archive-title {
+        font-size: 0.95rem;
+    }
+} 

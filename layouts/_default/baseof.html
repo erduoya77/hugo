@@ -1,80 +1,29 @@
 <!DOCTYPE html>
-<html lang="{{ .Site.Language.Lang }}">
+<html lang="{{ .Site.LanguageCode }}">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} - {{ .Site.Title }}{{ end }}</title>
-    <link rel="stylesheet" href="/css/custom.css">
-    {{ range .Site.Params.customCSS -}}
-        <link rel="stylesheet" href="{{ . | absURL }}">
-    {{- end }}
-    <script src="/js/view-image.min.js"></script>
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <!-- 全局样式 -->
+    <link rel="stylesheet" href="/css/main.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- 侧边栏样式 -->
+    <link rel="stylesheet" href="/css/sidebar.css">
+    {{ block "head" . }}{{ end }}
 </head>
 <body>
-    <div class="wrapper">
-        <aside class="sidebar">
-            <div class="sidebar-content">
-                <div class="site-title">
-                    <a href="/">{{ .Site.Title }}</a>
-                </div>
-                <nav class="site-nav">
-                    {{ range .Site.Menus.main }}
-                    <a href="{{ .URL }}" class="nav-item">{{ .Name }}</a>
-                    {{ end }}
-                </nav>
-                <div class="search-container">
-                    <input type="search" class="search-box" placeholder="搜索文章..." aria-label="搜索文章">
-                </div>
-                <div class="tag-list">
-                    {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
-                    <a href="/tags/{{ $name | urlize }}" class="tag-item">
-                        {{ $name }}
-                        <span class="tag-count">({{ .Count }})</span>
-                    </a>
-                    {{ end }}
-                </div>
-            </div>
-            <footer class="site-footer">
-                <div class="footer-links">
-                    <a href="mailto:erduoya77@163.com" title="Email" class="footer-link">
-                        <svg class="icon" viewBox="0 0 1024 1024" width="18" height="18">
-                            <path d="M874.666667 375.189333V746.666667a64 64 0 0 1-64 64H213.333333a64 64 0 0 1-64-64V375.189333l362.666667 228.693334 362.666667-228.693334zM810.666667 213.333333a64.789333 64.789333 0 0 1 64 64v21.333334L512 527.36 149.333333 298.666667V277.333333a64 64 0 0 1 64-64h597.333334z" fill="currentColor"></path>
-                        </svg>
-                    </a>
-                    <a href="/index.xml" title="RSS" class="footer-link">
-                        <svg class="icon" viewBox="0 0 1024 1024" width="18" height="18">
-                            <path d="M320.384 768a128 128 0 1 1-128-128 127.36 127.36 0 0 1 128 128zM913.408 896H778.24c0-399.36-322.88-722.24-722.24-722.24V38.912c472.064 0 857.088 385.024 857.088 857.088zM593.408 896H458.24c0-222.72-180.48-403.2-403.2-403.2V357.632c296.96 0 538.368 241.408 538.368 538.368z" fill="currentColor"></path>
-                        </svg>
-                    </a>
-                </div>
-                <div class="footer-info">
-                    <p class="copyright">© 2024-2025  erduoya</p>
-                    <p class="beian">
-                        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">
-                            <img src="/images/beian.png" alt="备案" style="vertical-align: middle;">
-                            鄂ICP备2023001339号
-                        </a>
-                    </p>
-                    <p class="busuanzi">
-                        <span id="busuanzi_container_site_pv">
-                            <span id="busuanzi_value_site_pv"></span> 次访问
-                        </span>
-                        <span class="separator">｜</span>
-                        <span id="busuanzi_container_site_uv">
-                            <span id="busuanzi_value_site_uv"></span> 位访客
-                        </span>
-                    </p>
-                    <p class="powered-by">
-                        Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a>
-                    </p>
-                </div>
-            </footer>
-        </aside>
-        <main class="main">
-            {{ block "main" . }}{{ end }}
-        </main>
-    </div>
+    <!-- 侧边栏 -->
+    {{ partial "sidebar.html" . }}
+
+    <!-- 主要内容 -->
+    <main class="main-content">
+        {{ block "main" . }}{{ end }}
+    </main>
+
+    <!-- 引入JavaScript -->
+    <script src="/js/sidebar.js"></script>
+    {{ block "scripts" . }}{{ end }}
 </body>
 </html>
 

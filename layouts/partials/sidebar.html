@@ -1,71 +1,110 @@
 {{ $currentPage := . }}
 <aside class="sidebar">
-    <div class="site-title">
-        <a href="/">{{ .Site.Title }}</a>
-    </div>
-    <div class="site-description">
-        {{ .Site.Params.description }}
-    </div>
+    <!-- 站点标题 -->
+    <a href="/" class="site-title">{{ .Site.Title }}</a>
+    <div class="site-subtitle">个人记录分享</div>
 
+    <!-- 导航菜单 -->
     <nav class="nav-menu">
-        {{ $currentPage := . }}
         {{ range .Site.Menus.main }}
-            {{ if .HasChildren }}
-            <div class="nav-item">
-                <a class="nav-link" href="#">
-                    {{ safeHTML .Pre }}{{ .Name }}
-                </a>
-                <div class="nav-submenu">
-                    {{ range .Children }}
-                    <a class="nav-sublink{{ if $currentPage.IsMenuCurrent "main" . }} active{{ end }}" href="{{ .URL }}">
-                        {{ .Name }}
-                    </a>
-                    {{ end }}
-                </div>
-            </div>
-            {{ else }}
-            <div class="nav-item">
-                <a class="nav-link{{ if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }} active{{ end }}" href="{{ .URL }}">
-                    {{ safeHTML .Pre }}{{ .Name }}
-                </a>
-            </div>
+        {{ $active := or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}
+        {{ $url := .URL | absLangURL }}
+        {{ $pageUrl := $currentPage.Permalink | absLangURL }}
+        <a href="{{ .URL }}" class="nav-item{{ if eq $url $pageUrl }} active{{ end }}">
+            {{ if eq .Identifier "时间轴" }}
+            <i class="fas fa-clock"></i>
+            {{ else if eq .Identifier "碎碎念" }}
+            <i class="fas fa-comment-dots"></i>
+            {{ else if eq .Identifier "书签" }}
+            <i class="fas fa-bookmark"></i>
+            {{ else if eq .Identifier "图片墙" }}
+            <i class="fas fa-images"></i>
+            {{ else if eq .Identifier "友联" }}
+            <i class="fas fa-user-friends"></i>
+            {{ else if eq .Identifier "关于" }}
+            <i class="fas fa-user"></i>
+            {{ else if eq .Identifier "工具" }}
+            <i class="fas fa-tools"></i>
             {{ end }}
+            <span>{{ .Name }}</span>
+        </a>
         {{ end }}
     </nav>
 
     <!-- 搜索框 -->
     <div class="search-container">
-        <input type="text" class="search-input" placeholder="搜索文章..." id="search-input">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-input" placeholder="搜索文章">
     </div>
 
     <!-- 标签云 -->
-    <div class="tags-cloud">
-        {{ range .Site.Taxonomies.tags }}
-        <a href="{{ .Page.RelPermalink }}" class="tag-item">
-            {{ .Page.Title }} <span class="tag-count">({{ .Count }})</span>
-        </a>
-        {{ end }}
+    <div class="tags-section">
+        <div class="section-title">
+            <i class="fas fa-tags"></i>
+            <span>标签</span>
+        </div>
+        <div class="tags-container">
+            {{ range .Site.Taxonomies.tags.ByCount }}
+            <a href="{{ .Page.RelPermalink }}" class="tag-item">
+                #{{ .Page.Title }}
+            </a>
+            {{ end }}
+        </div>
     </div>
 
-    <!-- 页脚信息 -->
-    <div class="sidebar-footer">
-        <div class="copyright">
-            © 2024 {{ .Site.Title }}
+    <!-- 页脚 -->
+    <footer class="sidebar-footer">
+        <div class="footer-links">
+            <a href="/rss.xml" class="footer-link" title="RSS">
+                <i class="fas fa-rss"></i>
+            </a>
+            <a href="mailto:{{ .Site.Params.email }}" class="footer-link" title="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+        <div class="copyright">© {{ now.Format "2006" }} {{ .Site.Title }}</div>
+        <div class="beian">
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">
+                <img src="/images/beian.png" alt="备案">
+                鄂ICP备2023001339号
+            </a>
+        </div>
+        <div class="busuanzi">
+            <span id="busuanzi_container_site_pv">
+                <i class="fas fa-eye"></i>
+                <span id="busuanzi_value_site_pv"></span>
+            </span>
+            <span class="separator">|</span>
+            <span id="busuanzi_container_site_uv">
+                <i class="fas fa-user"></i>
+                <span id="busuanzi_value_site_uv"></span>
+            </span>
         </div>
         <div class="powered-by">
-            Powered by <a href="https://gohugo.io" target="_blank">Hugo</a>
+            Powered by <a href="https://gohugo.io/" target="_blank">Hugo</a>
         </div>
+    </footer>
+
+    <!-- 暗色模式切换按钮 -->
+    <div class="theme-toggle">
+        <i class="fas fa-moon"></i>
     </div>
 </aside>
+
+<!-- 移动端菜单按钮 -->
+<div class="menu-toggle">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<!-- 引入CSS -->
+<link rel="stylesheet" href="/css/sidebar.css">
 
 <style>
 .sidebar {
     padding: 1.5rem;
     background: var(--content-bg);
-    background-image: url('{{ .Site.Params.background }}');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
     border-right: 1px solid var(--border-color);
     height: 100vh;
     position: fixed;
@@ -170,33 +209,40 @@
     border-color: var(--link-color);
 }
 
-.tags-cloud {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
+.tags-section {
     margin-bottom: 2rem;
 }
 
-.tag-item {
-    padding: 0.2rem 0.5rem;
-    background: var(--tag-bg);
-    border-radius: 4px;
-    color: var(--tag-color);
-    text-decoration: none;
-    font-size: 0.85rem;
-    transition: all 0.2s ease;
+.section-title {
     display: flex;
     align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tag-item {
+    display: inline-block;
+    padding: 2px 6px;
+    font-size: 0.875rem;
+    color: #1890ff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    background: rgba(24, 144, 255, 0.1);
 }
 
 .tag-item:hover {
-    opacity: 0.8;
-}
-
-.tag-count {
-    font-size: 0.75rem;
-    opacity: 0.8;
-    margin-left: 0.3rem;
+    background: rgba(24, 144, 255, 0.2);
+    transform: translateY(-1px);
 }
 
 .sidebar-footer {

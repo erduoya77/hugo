@@ -1,0 +1,321 @@
+/* 侧边栏容器 */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 260px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 2rem 1.5rem;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+    border-right: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+/* 站点标题 */
+.site-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    display: block;
+}
+
+.site-subtitle {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 2rem;
+    padding: 0 0.5rem;
+}
+
+/* 导航菜单 */
+.nav-menu {
+    margin-bottom: 2rem;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    color: #666;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.nav-item i {
+    width: 1.2rem;
+    margin-right: 0.8rem;
+    font-size: 1.1rem;
+}
+
+.nav-item:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #333;
+}
+
+.nav-item.active {
+    background: rgba(0, 0, 0, 0.05);
+    color: #333;
+    font-weight: 500;
+}
+
+/* 搜索框 */
+.search-container {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.8rem 1rem 0.8rem 2.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    background: rgba(0, 0, 0, 0.05);
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.search-input:focus {
+    outline: none;
+    background: rgba(0, 0, 0, 0.08);
+}
+
+/* 标签部分 */
+.tags-section {
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 0 0.5rem;
+    color: #333;
+    font-weight: 500;
+}
+
+.section-title i {
+    margin-right: 0.5rem;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.5rem;
+}
+
+.tag-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.3rem 0.6rem;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 0.3rem;
+    color: #666;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    line-height: 1;
+}
+
+.tag-item:hover {
+    background: rgba(0, 0, 0, 0.08);
+    color: #333;
+    transform: translateY(-1px);
+}
+
+.tag-count {
+    font-size: 0.75em;
+    color: #999;
+    margin-left: 0.3rem;
+}
+
+/* 分类列表 */
+.category-list {
+    margin-bottom: 2rem;
+}
+
+.category-item {
+    display: flex;
+    align-items: center;
+    padding: 0.4rem 0.6rem;
+    color: #666;
+    text-decoration: none;
+    border-radius: 0.3rem;
+    margin-bottom: 0.2rem;
+    transition: all 0.2s ease;
+}
+
+.category-item:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #333;
+}
+
+.category-count {
+    margin-left: auto;
+    font-size: 0.8rem;
+    color: #999;
+}
+
+/* 页脚 */
+.sidebar-footer {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.footer-link {
+    color: #666;
+    font-size: 1.2rem;
+    transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+    color: #333;
+}
+
+.copyright {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.beian {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.beian a {
+    color: #666;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+}
+
+.beian img {
+    height: 14px;
+    margin-right: 4px;
+}
+
+.busuanzi {
+    text-align: center;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.busuanzi i {
+    margin-right: 0.3rem;
+}
+
+.separator {
+    margin: 0 0.5rem;
+    color: #999;
+}
+
+.powered-by {
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.powered-by a {
+    color: #666;
+    text-decoration: none;
+}
+
+.powered-by a:hover {
+    color: #333;
+}
+
+/* 暗色模式切换按钮 */
+.theme-toggle {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.theme-toggle:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+/* 响应式设计 */
+@media screen and (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        z-index: 1000;
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    .theme-toggle {
+        bottom: 1rem;
+        left: 1rem;
+    }
+}
+
+/* 暗色主题样式 */
+body.dark-theme .sidebar {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+body.dark-theme .site-title,
+body.dark-theme .nav-item.active,
+body.dark-theme .section-title {
+    color: #fff;
+}
+
+body.dark-theme .site-subtitle,
+body.dark-theme .nav-item,
+body.dark-theme .tag-item,
+body.dark-theme .footer-link {
+    color: #bbb;
+}
+
+body.dark-theme .search-input {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+body.dark-theme .search-input::placeholder {
+    color: #666;
+}
+
+body.dark-theme .tag-item:hover,
+body.dark-theme .nav-item:hover,
+body.dark-theme .footer-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+} 
