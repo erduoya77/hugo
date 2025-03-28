@@ -1,0 +1,129 @@
+{{ define "main" }}
+<div class="tag-container">
+    <h1 class="tag-title">#{{ .Title }}</h1>
+    
+    <div class="posts-grid">
+        {{ range .Pages }}
+        <a href="{{ .RelPermalink }}" class="post-card">
+            {{ if .Params.backImg }}
+            <div class="card-image">
+                <img src="{{ .Params.backImg }}" alt="{{ .Title }}" loading="lazy">
+            </div>
+            {{ end }}
+            <div class="card-content">
+                <h2 class="card-title">{{ .Title }}</h2>
+                <div class="card-meta">
+                    <time>{{ .Date.Format "2006-01-02" }}</time>
+                    {{ with .Params.tags }}
+                    <div class="card-tags">
+                        {{ range . }}
+                        <span class="card-tag">#{{ . }}</span>
+                        {{ end }}
+                    </div>
+                    {{ end }}
+                </div>
+            </div>
+        </a>
+        {{ end }}
+    </div>
+</div>
+
+<style>
+.tag-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.tag-title {
+    font-family: var(--font-sans);
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.post-card {
+    text-decoration: none;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 10px;
+    transition: transform 0.2s ease;
+    border: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+}
+
+.post-card:hover {
+    transform: translateY(-4px);
+}
+
+.card-image {
+    aspect-ratio: 16/9;
+    overflow: hidden;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 1rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title {
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-meta {
+    margin-top: auto;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.card-tags {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.card-tag {
+    color: #0969da;
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+    .posts-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+    
+    .tag-title {
+        font-size: 1.5rem;
+    }
+}
+</style>
+{{ end }} 

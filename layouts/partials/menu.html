@@ -1,0 +1,171 @@
+{{ $currentPage := . }}
+
+<nav class="menu">
+    <a href="/" class="menu-item {{ if .IsHome }}active{{ end }}">
+        <i class="menu-icon">🏠</i>
+        <span>个人记录分享</span>
+    </a>
+    
+    <a href="/timeline" class="menu-item {{ if eq .RelPermalink "/timeline/" }}active{{ end }}">
+        <i class="menu-icon">⏰</i>
+        <span>时间轴</span>
+    </a>
+    
+    <a href="/memos" class="menu-item {{ if eq .RelPermalink "/memos/" }}active{{ end }}">
+        <i class="menu-icon">📝</i>
+        <span>碎碎念</span>
+    </a>
+    
+    <a href="/books" class="menu-item {{ if eq .RelPermalink "/books/" }}active{{ end }}">
+        <i class="menu-icon">📚</i>
+        <span>书签</span>
+    </a>
+    
+    <a href="/photos" class="menu-item {{ if eq .RelPermalink "/photos/" }}active{{ end }}">
+        <i class="menu-icon">🖼️</i>
+        <span>照片墙</span>
+    </a>
+    
+    <a href="/friends" class="menu-item {{ if eq .RelPermalink "/friends/" }}active{{ end }}">
+        <i class="menu-icon">🔗</i>
+        <span>友链</span>
+    </a>
+    
+    <a href="/about" class="menu-item {{ if eq .RelPermalink "/about/" }}active{{ end }}">
+        <i class="menu-icon">👤</i>
+        <span>About me</span>
+    </a>
+    
+    <div class="menu-tools">
+        <button class="menu-item tools-toggle" onclick="toggleTools(this)">
+            <i class="menu-icon">🛠️</i>
+            <span>工具</span>
+            <i class="arrow">▼</i>
+        </button>
+        
+        <div class="tools-submenu">
+            <a href="https://pan.erduoya.top" target="_blank">网盘</a>
+            <a href="https://goaccess.erduoya.top" target="_blank">Goaccess</a>
+            <a href="https://nginx.erduoya.top" target="_blank">Nginx UI</a>
+            <a href="https://jenkins.erduoya.top" target="_blank">Jenkins</a>
+            <a href="https://k8s.erduoya.top" target="_blank">K8s Dashboard</a>
+            <a href="https://pf.erduoya.top" target="_blank">Pfsense</a>
+            <a href="https://tcpdump.erduoya.top" target="_blank">Tcpdump</a>
+            <a href="https://wechat.erduoya.top" target="_blank">微信输入法</a>
+            <a href="https://text.erduoya.top" target="_blank">文字</a>
+            <a href="https://proxy.erduoya.top" target="_blank">正向代理</a>
+            <a href="https://game.erduoya.top" target="_blank">游戏</a>
+            <a href="https://soft.erduoya.top" target="_blank">软件</a>
+            <a href="https://issues.erduoya.top" target="_blank">问题记录</a>
+        </div>
+    </div>
+</nav>
+
+<style>
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: #666;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+}
+
+.menu-item:hover {
+    background: #f6f8fa;
+    color: #0969da;
+}
+
+.menu-item.active {
+    background: #f6f8fa;
+    color: #0969da;
+    font-weight: 500;
+}
+
+.menu-icon {
+    font-size: 1.2rem;
+    width: 1.5rem;
+    text-align: center;
+}
+
+.tools-toggle {
+    position: relative;
+}
+
+.tools-toggle .arrow {
+    margin-left: auto;
+    transition: transform 0.2s ease;
+}
+
+.tools-toggle.expanded .arrow {
+    transform: rotate(180deg);
+}
+
+.tools-submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding-left: 2.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.tools-submenu.expanded {
+    max-height: 500px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.tools-submenu a {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: #666;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 300;
+}
+
+.tools-submenu a:hover {
+    background: #f6f8fa;
+    color: #0969da;
+}
+</style>
+
+<script>
+function toggleTools(button) {
+    button.classList.toggle('expanded');
+    const submenu = button.nextElementSibling;
+    submenu.classList.toggle('expanded');
+}
+
+// 如果当前页面是工具页面，自动展开子菜单
+document.addEventListener('DOMContentLoaded', function() {
+    const currentPath = window.location.pathname;
+    if (currentPath.startsWith('/tools')) {
+        const toolsToggle = document.querySelector('.tools-toggle');
+        if (toolsToggle) {
+            toggleTools(toolsToggle);
+        }
+    }
+});
+</script> 

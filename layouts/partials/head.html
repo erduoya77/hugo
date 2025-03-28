@@ -1,0 +1,60 @@
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css">
+
+<!-- 自定义样式 -->
+<style>
+/* 字体图标相关样式 */
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-link i {
+    width: 1.2em;
+    text-align: center;
+}
+
+/* 搜索框图标 */
+.search-container {
+    position: relative;
+}
+
+.search-container::before {
+    content: "\f002";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--secondary);
+    font-size: 0.9rem;
+}
+
+.search-input {
+    padding-left: 2.5rem !important;
+}
+
+/* 标签图标 */
+.tag-item::before {
+    content: "\f02b";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    margin-right: 0.3rem;
+    font-size: 0.8em;
+}
+
+/* 子菜单箭头 */
+.nav-item:has(.nav-submenu) > .nav-link::after {
+    content: "\f107";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    margin-left: auto;
+    transition: transform 0.2s ease;
+}
+
+.nav-item:has(.nav-submenu):hover > .nav-link::after {
+    transform: rotate(180deg);
+}
+</style> 

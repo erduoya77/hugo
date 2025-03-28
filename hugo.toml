@@ -1,0 +1,86 @@
+baseURL = 'https://example.org/'
+languageCode = 'zh-cn'
+title = 'erduoya'
+theme = 'PaperMod'
+
+[params]
+  env = "production"
+  defaultTheme = "auto"
+  ShowBreadCrumbs = false
+  ShowPostNavLinks = true
+  ShowCodeCopyButtons = true
+  ShowWordCount = true
+  ShowRssButtonInSectionTermList = true
+  UseHugoToc = true
+  disableSpecial1stPost = false
+  disableScrollToTop = false
+  comments = false
+  hidemeta = false
+  hideSummary = false
+  showtoc = true
+  tocopen = true
+  customCSS = ["/css/custom.css"]
+
+[params.homeInfoParams]
+  Title = "个人记录分享"
+  Content = "这里是我的个人博客，记录生活、技术和思考"
+
+[params.profileMode]
+  enabled = false
+
+# 背景图配置
+[params.cover]
+  linkFullImages = true
+  image = "images/background.jpg"
+  relative = false
+  hidden = false
+  responsiveImages = true
+
+[params.assets]
+  favicon = ""
+  favicon16x16 = ""
+  favicon32x32 = ""
+  apple_touch_icon = ""
+  safari_pinned_tab = ""
+
+[[menu.main]]
+  identifier = "时间轴"
+  name = "时间轴"
+  url = "/archives"
+  weight = 10
+
+[[menu.main]]
+  identifier = "碎碎念"
+  name = "碎碎念"
+  url = "/memos/"
+  weight = 20
+
+[[menu.main]]
+  identifier = "书签"
+  name = "书签"
+  url = "/bookmarks/"
+  weight = 30
+
+[[menu.main]]
+  identifier = "图片墙"
+  name = "图片墙"
+  url = "/gallery/"
+  weight = 40
+
+[[menu.main]]
+  identifier = "友联"
+  name = "友联"
+  url = "/friends/"
+  weight = 50
+
+[[menu.main]]
+  identifier = "关于"
+  name = "关于"
+  url = "/about/"
+  weight = 60
+
+[[menu.main]]
+  identifier = "工具"
+  name = "工具"
+  weight = 70
+

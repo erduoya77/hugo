@@ -1,0 +1,268 @@
+{{ define "main" }}
+<div class="posts-container">
+    <div class="posts-grid">
+        {{ $paginator := .Paginate (where .Site.RegularPages.ByDate.Reverse "Type" "posts") }}
+        {{ range $paginator.Pages }}
+        <div class="post-card">
+            <a href="{{ .RelPermalink }}" class="card-link">
+                {{ if .Params.backImg }}
+                <div class="card-image">
+                    <img src="{{ .Params.backImg }}" alt="{{ .Title }}" loading="lazy">
+                </div>
+                {{ end }}
+                <div class="card-content">
+                    <h2 class="card-title">{{ .Title }}</h2>
+                    <div class="card-meta">
+                        <time>{{ .Date.Format "2006-01-02" }}</time>
+                        {{ with .Params.tags }}
+                        <div class="card-tags">
+                            {{ range . }}
+                            <span class="card-tag">{{ . }}</span>
+                            {{ end }}
+                        </div>
+                        {{ end }}
+                    </div>
+                </div>
+            </a>
+        </div>
+        {{ end }}
+    </div>
+    
+    {{ if gt $paginator.TotalPages 1 }}
+    <div class="pagination">
+        {{ if $paginator.HasPrev }}
+        <a href="{{ $paginator.Prev.URL }}" class="page-link">&laquo; 上一页</a>
+        {{ end }}
+        
+        {{ range $paginator.Pagers }}
+        <a href="{{ .URL }}" class="page-link {{ if eq . $paginator }}active{{ end }}">
+            {{ .PageNumber }}
+        </a>
+        {{ end }}
+        
+        {{ if $paginator.HasNext }}
+        <a href="{{ $paginator.Next.URL }}" class="page-link">下一页 &raquo;</a>
+        {{ end }}
+    </div>
+    {{ end }}
+</div>
+
+<style>
+:root {
+    --background-image: url('/images/background.jpg');
+}
+
+body {
+    background-image: var(--background-image);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
+
+/* 文章容器样式 */
+.posts-container {
+    max-width: 1200px;          /* 最大宽度1200px */
+    margin: 0 auto;             /* 水平居中 */
+    padding: 2rem 1rem;         /* 内边距:上下2rem,左右1rem */
+    background-color: rgba(255, 255, 255, 0.311);  /* 半透明白色背景 */
+    border-radius: 10px;        /* 圆角边框 */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);     /* 阴影效果 */
+    backdrop-filter: blur(10px);  /* 背景模糊效果 */
+}
+
+.category-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 10px;
+}
+
+.category-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background: #f6f8fa;
+    color: #666;
+    text-decoration: none;
+    border-radius: 20px;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.category-tag:hover {
+    background: #0969da;
+    color: #fff;
+}
+
+.tag-count {
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+.posts-grid {
+    column-count: 4;
+    column-gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.post-card {
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 10px;
+    border: 1px solid #eee;
+}
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.card-image {
+    position: relative;
+    overflow: hidden;
+}
+
+.card-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.post-card:hover .card-image img {
+    transform: scale(1.05);
+}
+
+.card-content {
+    padding: 1rem;
+}
+
+.card-title {
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+    margin: 0 0 0.75rem 0;
+    line-height: 1.4;
+}
+
+.card-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+.card-tag {
+    font-size: 0.85rem;
+    color: #666;
+    opacity: 0.8;
+}
+
+.card-tag::before {
+    content: "#";
+    margin-right: 0.1em;
+    opacity: 0.5;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+}
+
+.page-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    height: 2rem;
+    padding: 0 0.75rem;
+    border-radius: 6px;
+    background: #fff;
+    color: #666;
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.page-link:hover {
+    background: #f6f8fa;
+    color: #0969da;
+}
+
+.page-link.active {
+    background: #0969da;
+    color: #fff;
+}
+
+@media (max-width: 1200px) {
+    .posts-grid {
+        column-count: 3;
+    }
+}
+
+@media (max-width: 900px) {
+    .posts-grid {
+        column-count: 2;
+    }
+}
+
+@media (max-width: 600px) {
+    .posts-grid {
+        column-count: 1;
+    }
+    
+    .pagination {
+        flex-wrap: wrap;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 监听图片加载完成事件，确保 Masonry 布局正确
+    const images = document.querySelectorAll('.card-image img');
+    let loadedImages = 0;
+    
+    function imageLoaded() {
+        loadedImages++;
+        if (loadedImages === images.length) {
+            // 所有图片加载完成，触发重排
+            document.querySelector('.posts-grid').style.opacity = '1';
+        }
+    }
+    
+    images.forEach(img => {
+        if (img.complete) {
+            imageLoaded();
+        } else {
+            img.addEventListener('load', imageLoaded);
+        }
+    });
+});
+</script>
+{{ end }} 

@@ -1,0 +1,238 @@
+{{ $currentPage := . }}
+<aside class="sidebar">
+    <div class="site-title">
+        <a href="/">{{ .Site.Title }}</a>
+    </div>
+    <div class="site-description">
+        {{ .Site.Params.description }}
+    </div>
+
+    <nav class="nav-menu">
+        {{ $currentPage := . }}
+        {{ range .Site.Menus.main }}
+            {{ if .HasChildren }}
+            <div class="nav-item">
+                <a class="nav-link" href="#">
+                    {{ safeHTML .Pre }}{{ .Name }}
+                </a>
+                <div class="nav-submenu">
+                    {{ range .Children }}
+                    <a class="nav-sublink{{ if $currentPage.IsMenuCurrent "main" . }} active{{ end }}" href="{{ .URL }}">
+                        {{ .Name }}
+                    </a>
+                    {{ end }}
+                </div>
+            </div>
+            {{ else }}
+            <div class="nav-item">
+                <a class="nav-link{{ if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }} active{{ end }}" href="{{ .URL }}">
+                    {{ safeHTML .Pre }}{{ .Name }}
+                </a>
+            </div>
+            {{ end }}
+        {{ end }}
+    </nav>
+
+    <!-- 搜索框 -->
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="搜索文章..." id="search-input">
+    </div>
+
+    <!-- 标签云 -->
+    <div class="tags-cloud">
+        {{ range .Site.Taxonomies.tags }}
+        <a href="{{ .Page.RelPermalink }}" class="tag-item">
+            {{ .Page.Title }} <span class="tag-count">({{ .Count }})</span>
+        </a>
+        {{ end }}
+    </div>
+
+    <!-- 页脚信息 -->
+    <div class="sidebar-footer">
+        <div class="copyright">
+            © 2024 {{ .Site.Title }}
+        </div>
+        <div class="powered-by">
+            Powered by <a href="https://gohugo.io" target="_blank">Hugo</a>
+        </div>
+    </div>
+</aside>
+
+<style>
+.sidebar {
+    padding: 1.5rem;
+    background: var(--content-bg);
+    background-image: url('{{ .Site.Params.background }}');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    border-right: 1px solid var(--border-color);
+    height: 100vh;
+    position: fixed;
+    width: 250px;
+    overflow-y: auto;
+}
+
+.site-title {
+    margin-bottom: 0.5rem;
+}
+
+.site-title a {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--primary);
+    text-decoration: none;
+    padding: 0.3rem 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.site-description {
+    color: var(--secondary);
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.nav-menu {
+    margin-bottom: 1.5rem;
+}
+
+.nav-item {
+    margin-bottom: 0.3rem;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    color: var(--text);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+    border-radius: 4px;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--link-color);
+    background-color: var(--hover-bg);
+}
+
+.nav-link i {
+    width: 1.2em;
+    text-align: center;
+    margin-right: 0.5rem;
+    font-size: 0.9em;
+}
+
+.nav-submenu {
+    margin-left: 2.2rem;
+    margin-top: 0.2rem;
+    display: none;
+}
+
+.nav-item:hover .nav-submenu {
+    display: block;
+}
+
+.nav-sublink {
+    display: block;
+    padding: 0.3rem 0.5rem;
+    color: var(--secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+}
+
+.nav-sublink:hover {
+    color: var(--link-color);
+    background-color: var(--hover-bg);
+}
+
+.search-container {
+    margin-bottom: 1.5rem;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.5rem;
+    padding-left: 2rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--background);
+    color: var(--text);
+    font-size: 0.9rem;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--link-color);
+}
+
+.tags-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 2rem;
+}
+
+.tag-item {
+    padding: 0.2rem 0.5rem;
+    background: var(--tag-bg);
+    border-radius: 4px;
+    color: var(--tag-color);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.tag-item:hover {
+    opacity: 0.8;
+}
+
+.tag-count {
+    font-size: 0.75rem;
+    opacity: 0.8;
+    margin-left: 0.3rem;
+}
+
+.sidebar-footer {
+    font-size: 0.85rem;
+    color: var(--secondary);
+    text-align: center;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.copyright {
+    margin-bottom: 0.3rem;
+}
+
+.powered-by a {
+    color: var(--link-color);
+}
+
+.powered-by a:hover {
+    text-decoration: underline;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary);
+}
+</style> 

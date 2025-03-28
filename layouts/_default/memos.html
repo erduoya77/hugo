@@ -1,0 +1,25 @@
+{{ define "main" }}
+<div class="posts-container">
+    <div id="filter-indicator" class="filter-indicator" style="display: none;">
+        <span class="filter-tag"></span>
+        <button onclick="clearFilter()" class="clear-filter">清除筛选</button>
+    </div>
+    <div class="memo-list" id="memos-container">
+        <!-- Memos will be loaded here -->
+    </div>
+    <div class="loading-more" id="loading-more" style="display: none;">
+        <div class="loading-text">加载更多...</div>
+    </div>
+</div>
+
+<!-- 引入 APlayer 和 Meting.js -->
+<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+
+<!-- 引入 custom.css -->
+<link rel="stylesheet" href="/css/memos.css">
+
+<!-- 引入 memos.js -->
+<script src="/js/memos.js"></script>
+{{ end }}

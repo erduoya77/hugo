@@ -1,0 +1,543 @@
+{{ define "main" }}
+<!-- 添加 Prism.js -->
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+<div class="article-container">
+    <article class="article-content">
+        <h1 class="article-title">{{ .Title }}</h1>
+        <div class="article-meta">
+            <time>{{ .Date.Format "2006-01-02" }}</time>
+            {{ with .Params.category }}
+            <span class="meta-divider">·</span>
+            <span class="article-category">{{ . }}</span>
+            {{ end }}
+        </div>
+        
+        <div class="article-body" view-image>
+            {{ .Content }}
+        </div>
+    </article>
+    
+    {{ if .TableOfContents }}
+    <div class="article-toc" id="article-toc">
+        <div class="toc-title">目录</div>
+        {{ .TableOfContents }}
+    </div>
+    {{ end }}
+    
+    {{ if .Params.tags }}
+    <div class="related-posts">
+        <h3>相关推荐</h3>
+        <div class="related-scroll">
+            <div class="related-list">
+                {{ $currentPage := . }}
+                {{ $tags := .Params.tags }}
+                {{ range where .Site.RegularPages "Type" "posts" }}
+                    {{ $page := . }}
+                    {{ $matchCount := 0 }}
+                    {{ range $tags }}
+                        {{ if in $page.Params.tags . }}
+                            {{ $matchCount = add $matchCount 1 }}
+                        {{ end }}
+                    {{ end }}
+                    {{ if and (gt $matchCount 0) (ne $page.RelPermalink $currentPage.RelPermalink) }}
+                    <a href="{{ .RelPermalink }}" class="related-card">
+                        {{ if .Params.backImg }}
+                        <div class="related-image">
+                            <img src="{{ .Params.backImg }}" alt="{{ .Title }}" loading="lazy">
+                        </div>
+                        {{ end }}
+                        <div class="related-info">
+                            <div class="related-title">{{ .Title }}</div>
+                        </div>
+                    </a>
+                    {{ end }}
+                {{ end }}
+            </div>
+        </div>
+    </div>
+    {{ end }}
+</div>
+
+<style>
+/* 添加字体变量 */
+:root {
+    --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-serif: "Noto Serif", "Source Serif Pro", Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+.article-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    position: relative;
+}
+
+.article-content {
+    background: #fff;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 10px;
+    margin: 0 auto;
+}
+
+.article-title {
+    font-family: var(--font-sans);
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.article-meta {
+    font-family: var(--font-sans);
+    color: #666;
+    font-size: 0.9rem;
+    font-weight: 300;
+    margin-bottom: 2rem;
+}
+
+.meta-divider {
+    margin: 0 0.5rem;
+}
+
+.article-category {
+    color: #0969da;
+}
+
+.article-body {
+    font-family: var(--font-serif);
+    line-height: 1.8;
+    color: #333;
+    font-weight: 300;
+}
+
+/* GitHub 风格的代码块样式 */
+.article-body pre {
+    background: #282a36;
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 1rem 0;
+    color: #f8f8f2;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+}
+
+.article-body code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    font-size: 0.9em;
+    padding: 0.2em 0.4em;
+    margin: 0;
+    background: #282a36;
+    color: #f8f8f2;
+    border-radius: 6px;
+}
+
+.article-body pre code {
+    background: none;
+    padding: 0;
+    font-size: inherit;
+    white-space: pre;
+    word-break: normal;
+    word-wrap: normal;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+}
+
+.article-body pre::-webkit-scrollbar {
+    height: 8px;
+}
+
+.article-body pre::-webkit-scrollbar-track {
+    background: #282a36;
+    border-radius: 4px;
+}
+
+.article-body pre::-webkit-scrollbar-thumb {
+    background: #6272a4;
+    border-radius: 4px;
+}
+
+.article-body pre::-webkit-scrollbar-thumb:hover {
+    background: #44475a;
+}
+
+/* 代码语法高亮颜色 */
+.article-body pre .token.comment,
+.article-body pre .token.prolog,
+.article-body pre .token.doctype,
+.article-body pre .token.cdata {
+    color: #6272a4;
+}
+
+.article-body pre .token.punctuation {
+    color: #f8f8f2;
+}
+
+.article-body pre .token.property,
+.article-body pre .token.tag,
+.article-body pre .token.constant,
+.article-body pre .token.symbol,
+.article-body pre .token.deleted {
+    color: #ff79c6;
+}
+
+.article-body pre .token.boolean,
+.article-body pre .token.number {
+    color: #bd93f9;
+}
+
+.article-body pre .token.selector,
+.article-body pre .token.attr-name,
+.article-body pre .token.string,
+.article-body pre .token.char,
+.article-body pre .token.builtin,
+.article-body pre .token.inserted {
+    color: #50fa7b;
+}
+
+.article-body pre .token.operator,
+.article-body pre .token.entity,
+.article-body pre .token.url,
+.article-body pre .language-css .token.string,
+.article-body pre .style .token.string,
+.article-body pre .token.variable {
+    color: #f8f8f2;
+}
+
+.article-body pre .token.atrule,
+.article-body pre .token.attr-value,
+.article-body pre .token.function,
+.article-body pre .token.class-name {
+    color: #f1fa8c;
+}
+
+.article-body pre .token.keyword {
+    color: #8be9fd;
+}
+
+.article-body pre .token.regex,
+.article-body pre .token.important {
+    color: #ffb86c;
+}
+
+.article-body pre .token.important,
+.article-body pre .token.bold {
+    font-weight: bold;
+}
+
+.article-body pre .token.italic {
+    font-style: italic;
+}
+
+.article-body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1rem 0;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.article-body img:hover {
+    transform: scale(1.02);
+}
+
+.article-body h2 {
+    font-family: var(--font-sans);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.article-body h3 {
+    font-family: var(--font-sans);
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.article-tags {
+    margin-top: 2rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.tag {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    color: #0969da;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: opacity 0.2s ease;
+}
+
+.tag:hover {
+    opacity: 0.8;
+}
+
+.related-posts {
+    margin-top: 3rem;
+    background: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 10px;
+}
+
+.related-posts h3 {
+    font-family: var(--font-sans);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.related-scroll {
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+    padding: 0.5rem 0;
+}
+
+.related-scroll::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
+}
+
+.related-list {
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem 0;
+}
+
+.related-card {
+    flex: 0 0 280px;
+    text-decoration: none;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 10px;
+    transition: transform 0.2s ease;
+    border: 1px solid #eee;
+}
+
+.related-card:hover {
+    transform: translateY(-4px);
+}
+
+.related-image {
+    aspect-ratio: 16/9;
+    overflow: hidden;
+}
+
+.related-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.related-info {
+    padding: 0.75rem;
+}
+
+.related-title {
+    font-family: var(--font-sans);
+    color: #333;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.related-tags {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.related-tag {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    color: #0969da;
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+.article-toc {
+    position: fixed;
+    right: max(2rem, calc((100vw - 1600px) / 2));
+    top: 2rem;
+    width: 280px;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 10px;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(20px);
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+.article-toc.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+.article-toc::-webkit-scrollbar {
+    width: 4px;
+}
+
+.article-toc::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.article-toc::-webkit-scrollbar-thumb {
+    background: #ddd;
+    border-radius: 2px;
+}
+
+.toc-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+#TableOfContents {
+    ul {
+        list-style: none;
+        padding-left: 1rem;
+        margin: 0;
+    }
+    
+    li {
+        margin: 0.5rem 0;
+    }
+    
+    a {
+        color: #666;
+        text-decoration: none;
+        display: block;
+        padding: 0.2rem 0;
+        transition: color 0.2s ease;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        
+        &:hover {
+            color: #0969da;
+        }
+    }
+}
+
+@media (max-width: 1600px) {
+    .article-toc {
+        right: 2rem;
+    }
+}
+
+@media (max-width: 1400px) {
+    .article-toc {
+        display: none;
+    }
+}
+
+@media (max-width: 1200px) {
+    .article-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .article-content {
+        grid-column: 1;
+    }
+}
+
+@media (max-width: 1024px) {
+    .article-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .article-content {
+        grid-column: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .article-container {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+    
+    .article-content {
+        padding: 1rem;
+    }
+    
+    .article-title {
+        font-size: 1.5rem;
+    }
+    
+    .related-posts {
+        padding: 1rem;
+    }
+    
+    .related-card {
+        flex: 0 0 240px;
+    }
+}
+</style>
+
+<script src="/js/view-image.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 初始化ViewImage
+    ViewImage.init();
+    
+    // 目录滚动效果
+    const toc = document.getElementById('article-toc');
+    const content = document.querySelector('.article-content');
+    
+    if (toc && content) {
+        let lastScrollY = window.scrollY;
+        let ticking = false;
+        
+        const updateToc = () => {
+            if (window.scrollY > 100) {
+                toc.classList.add('visible');
+            } else {
+                toc.classList.remove('visible');
+            }
+            ticking = false;
+        };
+        
+        window.addEventListener('scroll', () => {
+            lastScrollY = window.scrollY;
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    updateToc();
+                });
+                ticking = true;
+            }
+        });
+        
+        updateToc();
+    }
+});
+</script>
+{{ end }} 
