@@ -1,27 +1,15 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.LanguageCode }}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} - {{ .Site.Title }}{{ end }}</title>
-    <!-- 全局样式 -->
-    <link rel="stylesheet" href="/css/main.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- 侧边栏样式 -->
-    <link rel="stylesheet" href="/css/sidebar.css">
-    <!-- 不蒜子统计 -->
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    {{ block "head" . }}{{ end }}
+    {{ partial "head.html" . }}
 </head>
 <body>
-    <!-- 侧边栏 -->
-    {{ partial "sidebar.html" . }}
-
-    <!-- 主要内容 -->
-    <main class="main-content">
-        {{ block "main" . }}{{ end }}
-    </main>
+    <div class="wrapper">
+        {{ partial "sidebar.html" . }}
+        <main class="main">
+            {{ block "main" . }}{{ end }}
+        </main>
+    </div>
 
     <!-- 浮动工具条 -->
     <div class="floating-toolbar">
@@ -41,6 +29,52 @@
 </html>
 
 <style>
+/* 浮动工具条样式 */
+.floating-toolbar {
+    position: fixed;
+    right: 2rem;
+    bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    z-index: 1000;
+}
+
+.toolbar-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: var(--content-bg);
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+}
+
+.toolbar-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background: var(--hover-bg);
+}
+
+#back-to-top {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+#back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
 /* 侧边栏底部样式 */
 .site-footer {
     padding: 1rem;

@@ -92,7 +92,7 @@ theme = 'PaperMod'
     icon = "fa-solid fa-user"
 
 [[menu.main]]
-  identifier = "tools"
+  identifier = "工具"
   name = "工具"
   url = "#"
   weight = 70
@@ -100,25 +100,25 @@ theme = 'PaperMod'
     icon = "fa-solid fa-toolbox"
 
 [[menu.main]]
-  name = "Memos"
-  url = "https://memos.erduoya.top/"
-  parent = "tools"
+  name = "云盘"
+  url = "https://pan.erduoya.top/d/a00f8f0a429a4114bede/"
+  parent = "工具"
   weight = 1
   [menu.main.params]
     icon = "fa-solid fa-sticky-note"
 
 [[menu.main]]
-  name = "导航"
-  url = "https://nav.erduoya.top/"
-  parent = "tools"
+  name = "监控"
+  url = "https://stats.uptimerobot.com/8x97TZ6H3G"
+  parent = "工具"
   weight = 2
   [menu.main.params]
     icon = "fa-solid fa-compass"
 
 [[menu.main]]
   name = "图床"
-  url = "https://img.erduoya.top/"
-  parent = "tools"
+  url = "https://imgse.com/"
+  parent = "工具"
   weight = 3
   [menu.main.params]
     icon = "fa-solid fa-image"

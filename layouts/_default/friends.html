@@ -1,0 +1,55 @@
+{{ define "main" }}
+<link rel="stylesheet" href="/css/friends.css">
+
+<div class="friends-container">
+    <div class="friends-content">
+        <h1 class="page-title">{{ .Title }}</h1>
+        
+        <!-- 渲染普通的Markdown内容 -->
+        <div class="markdown-content">
+            {{ $content := .RawContent }}
+            {{ $tableStart := findRE `\|.*\|.*\|.*\|.*\|` $content 1 }}
+            {{ $parts := split $content (index $tableStart 0) }}
+            {{ if gt (len $parts) 0 }}
+                {{ index $parts 0 | markdownify }}
+            {{ end }}
+        </div>
+
+        <!-- 渲染友链卡片 -->
+        <div class="friends-grid">
+            {{ $friendsContent := .RawContent }}
+            {{ $rows := split $friendsContent "\n" }}
+            {{ $foundTable := false }}
+            {{ range $rows }}
+                {{ $row := . }}
+                {{ if and (not $foundTable) (hasPrefix $row "| name") }}
+                    {{ $foundTable = true }}
+                    {{ continue }}
+                {{ end }}
+                {{ if and $foundTable (hasPrefix $row "|") }}
+                    {{ if not (hasPrefix $row "| --") }}
+                        {{ $cells := split (trim $row "|") "|" }}
+                        {{ if ge (len $cells) 4 }}
+                            {{ $name := trim (index $cells 0) " " }}
+                            {{ $website := trim (index $cells 1) " " }}
+                            {{ $description := trim (index $cells 2) " " }}
+                            {{ $avatar := trim (index $cells 3) " " }}
+                            {{ if and (ne $name "") (ne $website "") (ne $name "name") }}
+                            <div class="friend-card">
+                                <div class="friend-avatar">
+                                    <img src="{{ $avatar }}" alt="{{ $name }}" loading="lazy">
+                                </div>
+                                <div class="friend-info">
+                                    <a href="{{ $website }}" target="_blank" rel="noopener noreferrer" class="friend-name">{{ $name }}</a>
+                                    <div class="friend-desc">{{ $description }}</div>
+                                </div>
+                            </div>
+                            {{ end }}
+                        {{ end }}
+                    {{ end }}
+                {{ end }}
+            {{ end }}
+        </div>
+    </div>
+</div>
+{{ end }} 

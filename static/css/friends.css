@@ -1,0 +1,108 @@
+.friends-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.friends-content {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.page-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+}
+
+/* Markdown内容样式 */
+.markdown-content {
+    margin-bottom: 3rem;
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.markdown-content p {
+    margin-bottom: 1rem;
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4,
+.markdown-content h5,
+.markdown-content h6 {
+    margin: 1.5rem 0 1rem;
+    color: var(--heading-color, var(--text-color));
+}
+
+.friends-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.friend-card {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.friend-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.friend-avatar {
+    width: 60px;
+    height: 60px;
+    margin-right: 1rem;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.friend-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.friend-info {
+    flex: 1;
+}
+
+.friend-name {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--link-color);
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+}
+
+.friend-name:hover {
+    text-decoration: underline;
+}
+
+.friend-desc {
+    font-size: 0.9rem;
+    color: var(--secondary);
+    line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+    .friends-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .friends-container {
+        padding: 1rem;
+    }
+}

@@ -1,19 +1,27 @@
 {{ $currentPage := . }}
 
+<header class="site-header">
+    <a href="/" class="site-brand">
+        <h1 class="site-title">{{ .Site.Title }}</h1>
+        <div class="title-decoration"></div>
+    </a>
+    <p class="site-description">{{ .Site.Params.homeInfoParams.Content }}</p>
+</header>
+
 <nav class="menu">
     {{ range .Site.Menus.main }}
         {{ if .HasChildren }}
-            <div class="menu-tools">
-                <button class="menu-item tools-toggle" onclick="toggleTools(this)">
-                    <i class="menu-icon {{ if eq .Identifier "工具" }}fas fa-tools{{ else }}{{ with .Params.icon }}{{ . }}{{ end }}{{ end }}"></i>
+            <div class="menu-item-wrapper">
+                <button class="menu-item submenu-toggle" onclick="toggleSubmenu(this)">
+                    <i class="menu-icon {{ .Params.icon }}"></i>
                     <span>{{ .Name }}</span>
                     <i class="arrow">▼</i>
                 </button>
                 
-                <div class="tools-submenu">
+                <div class="submenu">
                     {{ range .Children }}
                         <a href="{{ .URL }}" target="_blank" class="menu-item">
-                            <i class="menu-icon {{ with .Params.icon }}{{ . }}{{ else }}fas fa-link{{ end }}"></i>
+                            <i class="menu-icon {{ .Params.icon }}"></i>
                             <span>{{ .Name }}</span>
                         </a>
                     {{ end }}
@@ -21,7 +29,7 @@
             </div>
         {{ else if not .Parent }}
             <a href="{{ .URL }}" class="menu-item {{ if eq $currentPage.RelPermalink .URL }}active{{ end }}">
-                <i class="menu-icon {{ with .Params.icon }}{{ . }}{{ end }}"></i>
+                <i class="menu-icon {{ .Params.icon }}"></i>
                 <span>{{ .Name }}</span>
             </a>
         {{ end }}
@@ -34,6 +42,11 @@
     flex-direction: column;
     gap: 0.5rem;
     padding: 1rem;
+}
+
+.menu-item-wrapper {
+    display: flex;
+    flex-direction: column;
 }
 
 .menu-item {
@@ -71,20 +84,20 @@
     text-align: center;
 }
 
-.tools-toggle {
+.submenu-toggle {
     position: relative;
 }
 
-.tools-toggle .arrow {
+.submenu-toggle .arrow {
     margin-left: auto;
     transition: transform 0.2s ease;
 }
 
-.tools-toggle.expanded .arrow {
+.submenu-toggle.expanded .arrow {
     transform: rotate(180deg);
 }
 
-.tools-submenu {
+.submenu {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
@@ -94,38 +107,41 @@
     gap: 0.25rem;
 }
 
-.tools-submenu.expanded {
+.submenu.expanded {
     max-height: 500px;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
 }
 
-.tools-submenu .menu-item {
+.submenu .menu-item {
     padding: 0.5rem 1rem;
     font-size: 0.95rem;
 }
 
-.tools-submenu .menu-item:hover {
+.submenu .menu-item:hover {
     background: #f6f8fa;
     color: #0969da;
 }
 </style>
 
 <script>
-function toggleTools(button) {
+function toggleSubmenu(button) {
     button.classList.toggle('expanded');
     const submenu = button.nextElementSibling;
     submenu.classList.toggle('expanded');
 }
 
-// 如果当前页面是工具页面，自动展开子菜单
+// 检查当前页面路径是否匹配任何子菜单项的URL，如果匹配则展开对应的子菜单
 document.addEventListener('DOMContentLoaded', function() {
     const currentPath = window.location.pathname;
-    if (currentPath.startsWith('/tools')) {
-        const toolsToggle = document.querySelector('.tools-toggle');
-        if (toolsToggle) {
-            toggleTools(toolsToggle);
+    const submenuLinks = document.querySelectorAll('.submenu a');
+    submenuLinks.forEach(link => {
+        if (link.getAttribute('href').includes(currentPath)) {
+            const submenuToggle = link.closest('.menu-item-wrapper').querySelector('.submenu-toggle');
+            if (submenuToggle) {
+                toggleSubmenu(submenuToggle);
+            }
         }
-    }
+    });
 });
 </script> 

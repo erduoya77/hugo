@@ -96,11 +96,8 @@ function renderArchives(posts) {
 
 // 初始化
 document.addEventListener('DOMContentLoaded', () => {
-    // 添加调试信息
-    console.log('初始化时间轴...');
-    const archivesData = window.archivesData || [];
-    console.log('文章数据:', archivesData);
-    
+ const archivesData = window.archivesData || [];
+
     if (archivesData.length > 0) {
         renderArchives(archivesData);
     } else {

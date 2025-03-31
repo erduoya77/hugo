@@ -1,26 +1,65 @@
-/* 卡片样式 */
+/* 卡片容器样式 */
+.memo-list {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
 .memo-card {
     display: flex;
-    flex-direction: column;
     margin-bottom: 1.5rem;
     width: 100%;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
+    align-items: flex-start;  /* 添加这行，确保子元素从顶部对齐 */
 }
 
 .memo-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.5rem;
-    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    flex-shrink: 0;  /* 防止头像被压缩 */
 }
 
 .memo-avatar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    margin-right: 0.5rem;
+    display: block;  /* 确保图片不会有额外的间距 */
+}
+
+.memo-bubble {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-left: 0.5rem;
+    flex: 1;
+    position: relative;
+    margin-top: 5px;  /* 稍微下移气泡 */
+}
+
+.memo-bubble::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 15px;  /* 调整三角形位置 */
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    transform: translateY(-50%) rotate(45deg);
+}
+
+/* 暗色模式下的气泡样式 */
+body.dark-theme .memo-bubble {
+    background: #1a1a1a;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .memo-bubble::before {
+    background: #1a1a1a;
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
 .memo-author {
@@ -31,62 +70,6 @@
 
 .memo-author:hover {
     text-decoration: underline;
-}
-
-.memo-bubble {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    border-radius: 0.5rem;
-    padding: 1rem;
-    margin-left: 2rem;
-    flex: 1;
-    word-wrap: break-word;
-    position: relative;
-    overflow-wrap: break-word;
-    word-break: break-all;
-    transition: all 0.3s ease;
-}
-
-.memo-bubble::before {
-    content: '';
-    position: absolute;
-    left: -8px;
-    top: 20px;
-    width: 0;
-    height: 0;
-    border-top: 8px solid transparent;
-    border-bottom: 8px solid transparent;
-    border-right: 8px solid rgba(255, 255, 255, 0.8);
-    transform: translateY(-50%);
-}
-
-.memo-bubble::after {
-    content: '';
-    position: absolute;
-    left: -9px;
-    top: 20px;
-    width: 0;
-    height: 0;
-    border-top: 8px solid transparent;
-    border-bottom: 8px solid transparent;
-    border-right: 8px solid rgba(0, 0, 0, 0.05);
-    transform: translateY(-50%);
-    z-index: -1;
-}
-
-/* 暗色模式下的气泡样式 */
-body.dark-theme .memo-bubble {
-    background: rgba(26, 26, 26, 0.8);
-    border-color: rgba(255, 255, 255, 0.1);
-}
-
-body.dark-theme .memo-bubble::before {
-    border-right-color: rgba(26, 26, 26, 0.8);
-}
-
-body.dark-theme .memo-bubble::after {
-    border-right-color: rgba(255, 255, 255, 0.1);
 }
 
 .memo-content {

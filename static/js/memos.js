@@ -27,7 +27,7 @@ function processContent(content) {
         const placeholder = `PLACEHOLDER_${placeholderIndex++}`;
         placeholders.push({
             placeholder: placeholder,
-            html: `<a href="/tags/${tag}" class="memo-tag">#${tag}</a>`
+            html: `<a  onclick="filterByTag('${tag}')" class="memo-tag">#${tag}</a>`
         });
         return placeholder;
     });
@@ -121,7 +121,6 @@ function createMemoCard(memo) {
     card.innerHTML = `
         <div class="memo-header">
             <img class="memo-avatar" src="/images/avatar.png" alt="avatar">
-            <a class="memo-author">${memo.creatorName}</a>
         </div>
         <div class="memo-bubble">
             <div class="memo-content">${content}</div>
@@ -175,11 +174,11 @@ async function loadMemos() {
     loadingMore.style.display = 'block';
     
     try {
-        const baseUrl = 'https://memos.erduoya.top/api/v1/memo?creatorId=1&rowStatus=NORMAL';
-        let url = `${baseUrl}&limit=${limit}&offset=${(page - 1) * limit}`;
+        const baseUrl = 'https://memos.erduoya.top/api/v1/memo';
+        let url = `${baseUrl}?creatorId=1&rowStatus=NORMAL&limit=${limit}&offset=${(page - 1) * limit}`;
         
         if (currentTag) {
-            url += `&tag=${currentTag}`;
+            url += `&tag=${encodeURIComponent(currentTag)}`;
         }
             
         const response = await fetch(url);
