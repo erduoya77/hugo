@@ -128,7 +128,7 @@ body.dark-theme ::-webkit-scrollbar-thumb:hover {
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
-    z-index: 1000;
+    z-index: 9999;
 }
 
 .toolbar-btn {
@@ -145,6 +145,7 @@ body.dark-theme ::-webkit-scrollbar-thumb:hover {
     transition: all 0.3s ease;
     color: var(--text-color);
     font-size: 1.2rem;
+    padding: 0;
 }
 
 .toolbar-btn:hover {
@@ -163,13 +164,27 @@ body.dark-theme ::-webkit-scrollbar-thumb:hover {
     visibility: visible;
 }
 
-/* 暗色模式图标样式 */
-.dark-theme .toolbar-btn {
-    background: var(--dark-bg);
-    border-color: var(--dark-border);
-    color: var(--dark-text);
+/* 暗色模式下的工具条样式 */
+body.dark-theme .toolbar-btn {
+    background: var(--content-bg);
+    border-color: var(--border-color);
+    color: var(--text-color);
 }
 
-.dark-theme .toolbar-btn:hover {
-    background: var(--dark-hover-bg);
+body.dark-theme .toolbar-btn:hover {
+    background: var(--hover-bg);
+}
+
+/* 移动端适配 */
+@media screen and (max-width: 768px) {
+    .floating-toolbar {
+        right: 1rem;
+        bottom: 1rem;
+    }
+    
+    .toolbar-btn {
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 1rem;
+    }
 } 
