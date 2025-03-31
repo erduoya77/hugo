@@ -1,64 +1,31 @@
 {{ $currentPage := . }}
 
 <nav class="menu">
-    <a href="/" class="menu-item {{ if .IsHome }}active{{ end }}">
-        <i class="menu-icon">🏠</i>
-        <span>个人记录分享</span>
-    </a>
-    
-    <a href="/timeline" class="menu-item {{ if eq .RelPermalink "/timeline/" }}active{{ end }}">
-        <i class="menu-icon">⏰</i>
-        <span>时间轴</span>
-    </a>
-    
-    <a href="/memos" class="menu-item {{ if eq .RelPermalink "/memos/" }}active{{ end }}">
-        <i class="menu-icon">📝</i>
-        <span>碎碎念</span>
-    </a>
-    
-    <a href="/books" class="menu-item {{ if eq .RelPermalink "/books/" }}active{{ end }}">
-        <i class="menu-icon">📚</i>
-        <span>书签</span>
-    </a>
-    
-    <a href="/photos" class="menu-item {{ if eq .RelPermalink "/photos/" }}active{{ end }}">
-        <i class="menu-icon">🖼️</i>
-        <span>照片墙</span>
-    </a>
-    
-    <a href="/friends" class="menu-item {{ if eq .RelPermalink "/friends/" }}active{{ end }}">
-        <i class="menu-icon">🔗</i>
-        <span>友链</span>
-    </a>
-    
-    <a href="/about" class="menu-item {{ if eq .RelPermalink "/about/" }}active{{ end }}">
-        <i class="menu-icon">👤</i>
-        <span>About me</span>
-    </a>
-    
-    <div class="menu-tools">
-        <button class="menu-item tools-toggle" onclick="toggleTools(this)">
-            <i class="menu-icon">🛠️</i>
-            <span>工具</span>
-            <i class="arrow">▼</i>
-        </button>
-        
-        <div class="tools-submenu">
-            <a href="https://pan.erduoya.top" target="_blank">网盘</a>
-            <a href="https://goaccess.erduoya.top" target="_blank">Goaccess</a>
-            <a href="https://nginx.erduoya.top" target="_blank">Nginx UI</a>
-            <a href="https://jenkins.erduoya.top" target="_blank">Jenkins</a>
-            <a href="https://k8s.erduoya.top" target="_blank">K8s Dashboard</a>
-            <a href="https://pf.erduoya.top" target="_blank">Pfsense</a>
-            <a href="https://tcpdump.erduoya.top" target="_blank">Tcpdump</a>
-            <a href="https://wechat.erduoya.top" target="_blank">微信输入法</a>
-            <a href="https://text.erduoya.top" target="_blank">文字</a>
-            <a href="https://proxy.erduoya.top" target="_blank">正向代理</a>
-            <a href="https://game.erduoya.top" target="_blank">游戏</a>
-            <a href="https://soft.erduoya.top" target="_blank">软件</a>
-            <a href="https://issues.erduoya.top" target="_blank">问题记录</a>
-        </div>
-    </div>
+    {{ range .Site.Menus.main }}
+        {{ if .HasChildren }}
+            <div class="menu-tools">
+                <button class="menu-item tools-toggle" onclick="toggleTools(this)">
+                    <i class="menu-icon {{ with .Params.icon }}{{ . }}{{ else }}🛠️{{ end }}"></i>
+                    <span>{{ .Name }}</span>
+                    <i class="arrow">▼</i>
+                </button>
+                
+                <div class="tools-submenu">
+                    {{ range .Children }}
+                        <a href="{{ .URL }}" target="_blank" class="menu-item">
+                            <i class="menu-icon {{ with .Params.icon }}{{ . }}{{ end }}"></i>
+                            <span>{{ .Name }}</span>
+                        </a>
+                    {{ end }}
+                </div>
+            </div>
+        {{ else if not .Parent }}
+            <a href="{{ .URL }}" class="menu-item {{ if eq $currentPage.RelPermalink .URL }}active{{ end }}">
+                <i class="menu-icon {{ with .Params.icon }}{{ . }}{{ end }}"></i>
+                <span>{{ .Name }}</span>
+            </a>
+        {{ end }}
+    {{ end }}
 </nav>
 
 <style>
@@ -133,19 +100,12 @@
     padding-bottom: 0.5rem;
 }
 
-.tools-submenu a {
-    display: block;
+.tools-submenu .menu-item {
     padding: 0.5rem 1rem;
-    color: #666;
-    text-decoration: none;
-    border-radius: 6px;
-    transition: all 0.2s ease;
-    font-family: var(--font-sans);
     font-size: 0.95rem;
-    font-weight: 300;
 }
 
-.tools-submenu a:hover {
+.tools-submenu .menu-item:hover {
     background: #f6f8fa;
     color: #0969da;
 }

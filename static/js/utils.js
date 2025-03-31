@@ -1,13 +1,31 @@
 // 日期格式化
-function formatDate(timestamp, format = 'zh-CN') {
-    const date = new Date(timestamp * 1000);
-    return date.toLocaleString(format, {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
+function formatDate(date, format = 'zh-CN') {
+    try {
+        // 如果输入是时间戳（数字），转换为毫秒
+        if (typeof date === 'number') {
+            date = date * 1000;
+        }
+        // 创建 Date 对象
+        const dateObj = new Date(date);
+        
+        if (isNaN(dateObj.getTime())) {
+            console.error('无效的日期格式:', date);
+            return '日期未知';
+        }
+
+        return dateObj.toLocaleString(format, {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+            timeZone: 'Asia/Shanghai'
+        }).replace(/\//g, '-');
+    } catch (error) {
+        console.error('日期格式化错误:', error);
+        return '日期未知';
+    }
 }
 
 // 防抖函数

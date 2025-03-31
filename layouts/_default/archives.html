@@ -1,6 +1,5 @@
 {{ define "main" }}
 <div class="archives-container">
-    <h1 class="page-title">时间轴</h1>
     <div id="archives-container"></div>
     <div id="loading-more" class="loading-more" style="display: none;">
         <span class="loading-text">加载中...</span>
@@ -9,13 +8,15 @@
 
 <script>
     window.archivesData = [
-        {{ range .Site.RegularPages }}
-        {
-            "title": {{ .Title | jsonify }},
-            "date": {{ .Date.Format "2006-01-02" | jsonify }},
-            "url": {{ .RelPermalink | jsonify }},
-            "description": {{ .Description | jsonify }}
-        },
+        {{ $pages := .Site.RegularPages.ByDate.Reverse }}
+        {{ range $index, $page := $pages }}
+            {{- if $index }},{{ end }}
+            {
+                "title": {{ $page.Title | jsonify }},
+                "date": "{{ $page.Date.Format "1/2" }}",
+                "url": "{{ $page.Permalink }}",
+                "timestamp": {{ $page.Date.Unix }}
+            }
         {{ end }}
     ];
 </script>

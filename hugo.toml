@@ -48,39 +48,78 @@ theme = 'PaperMod'
   name = "时间轴"
   url = "/archives"
   weight = 10
+  [menu.main.params]
+    icon = "fa-solid fa-clock"
 
 [[menu.main]]
   identifier = "碎碎念"
   name = "碎碎念"
   url = "/memos/"
   weight = 20
+  [menu.main.params]
+    icon = "fa-solid fa-pen"
 
 [[menu.main]]
   identifier = "书签"
   name = "书签"
   url = "/collect/"
   weight = 30
+  [menu.main.params]
+    icon = "fa-solid fa-bookmark"
 
 [[menu.main]]
   identifier = "图片墙"
   name = "图片墙"
   url = "/gallery/"
   weight = 40
+  [menu.main.params]
+    icon = "fa-solid fa-images"
 
 [[menu.main]]
   identifier = "友联"
   name = "友联"
   url = "/friends/"
   weight = 50
+  [menu.main.params]
+    icon = "fa-solid fa-link"
 
 [[menu.main]]
   identifier = "关于"
   name = "关于"
   url = "/about/"
   weight = 60
+  [menu.main.params]
+    icon = "fa-solid fa-user"
 
 [[menu.main]]
-  identifier = "工具"
+  identifier = "tools"
   name = "工具"
+  url = "#"
   weight = 70
+  [menu.main.params]
+    icon = "fa-solid fa-toolbox"
+
+[[menu.main]]
+  name = "Memos"
+  url = "https://memos.erduoya.top/"
+  parent = "tools"
+  weight = 1
+  [menu.main.params]
+    icon = "fa-solid fa-sticky-note"
+
+[[menu.main]]
+  name = "导航"
+  url = "https://nav.erduoya.top/"
+  parent = "tools"
+  weight = 2
+  [menu.main.params]
+    icon = "fa-solid fa-compass"
+
+[[menu.main]]
+  name = "图床"
+  url = "https://img.erduoya.top/"
+  parent = "tools"
+  weight = 3
+  [menu.main.params]
+    icon = "fa-solid fa-image"
 
