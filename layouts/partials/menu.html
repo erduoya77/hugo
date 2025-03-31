@@ -5,7 +5,7 @@
         {{ if .HasChildren }}
             <div class="menu-tools">
                 <button class="menu-item tools-toggle" onclick="toggleTools(this)">
-                    <i class="menu-icon {{ with .Params.icon }}{{ . }}{{ else }}🛠️{{ end }}"></i>
+                    <i class="menu-icon {{ if eq .Identifier "工具" }}fas fa-tools{{ else }}{{ with .Params.icon }}{{ . }}{{ end }}{{ end }}"></i>
                     <span>{{ .Name }}</span>
                     <i class="arrow">▼</i>
                 </button>
@@ -13,7 +13,7 @@
                 <div class="tools-submenu">
                     {{ range .Children }}
                         <a href="{{ .URL }}" target="_blank" class="menu-item">
-                            <i class="menu-icon {{ with .Params.icon }}{{ . }}{{ end }}"></i>
+                            <i class="menu-icon {{ with .Params.icon }}{{ . }}{{ else }}fas fa-link{{ end }}"></i>
                             <span>{{ .Name }}</span>
                         </a>
                     {{ end }}

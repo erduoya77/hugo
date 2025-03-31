@@ -13,22 +13,25 @@
         {{ if .HasChildren }}
         <div class="nav-item">
             <a href="{{ .URL }}" class="nav-link{{ if eq $url $pageUrl }} active{{ end }}">
-                {{ if eq .Identifier "时间轴" }}
-                <i class="fas fa-clock"></i>
-                {{ else if eq .Identifier "碎碎念" }}
-                <i class="fas fa-comment-dots"></i>
-                {{ else if eq .Identifier "书签" }}
-                <i class="fas fa-bookmark"></i>
-                {{ else if eq .Identifier "图片墙" }}
-                <i class="fas fa-images"></i>
-                {{ else if eq .Identifier "友联" }}
-                <i class="fas fa-user-friends"></i>
-                {{ else if eq .Identifier "关于" }}
-                <i class="fas fa-user"></i>
-                {{ else if eq .Identifier "工具" }}
-                <i class="fas fa-tools"></i>
-                {{ end }}
-                <span>{{ .Name }}</span>
+                <div class="nav-link-content">
+                    {{ if eq .Identifier "时间轴" }}
+                    <i class="fas fa-clock"></i>
+                    {{ else if eq .Identifier "碎碎念" }}
+                    <i class="fas fa-comment-dots"></i>
+                    {{ else if eq .Identifier "书签" }}
+                    <i class="fas fa-bookmark"></i>
+                    {{ else if eq .Identifier "图片墙" }}
+                    <i class="fas fa-images"></i>
+                    {{ else if eq .Identifier "友联" }}
+                    <i class="fas fa-user-friends"></i>
+                    {{ else if eq .Identifier "关于" }}
+                    <i class="fas fa-user"></i>
+                    {{ else if eq .Identifier "工具" }}
+                    <i class="fas fa-tools"></i>
+                    {{ end }}
+                    <span>{{ .Name }}</span>
+                </div>
+                <i class="fas fa-chevron-down nav-link-arrow"></i>
             </a>
             <div class="nav-submenu">
                 {{ range .Children }}
@@ -43,20 +46,22 @@
         </div>
         {{ else }}
         <a href="{{ .URL }}" class="nav-link{{ if eq $url $pageUrl }} active{{ end }}">
-            {{ if eq .Identifier "时间轴" }}
-            <i class="fas fa-clock"></i>
-            {{ else if eq .Identifier "碎碎念" }}
-            <i class="fas fa-comment-dots"></i>
-            {{ else if eq .Identifier "书签" }}
-            <i class="fas fa-bookmark"></i>
-            {{ else if eq .Identifier "图片墙" }}
-            <i class="fas fa-images"></i>
-            {{ else if eq .Identifier "友联" }}
-            <i class="fas fa-user-friends"></i>
-            {{ else if eq .Identifier "关于" }}
-            <i class="fas fa-user"></i>
-            {{ end }}
-            <span>{{ .Name }}</span>
+            <div class="nav-link-content">
+                {{ if eq .Identifier "时间轴" }}
+                <i class="fas fa-clock"></i>
+                {{ else if eq .Identifier "碎碎念" }}
+                <i class="fas fa-comment-dots"></i>
+                {{ else if eq .Identifier "书签" }}
+                <i class="fas fa-bookmark"></i>
+                {{ else if eq .Identifier "图片墙" }}
+                <i class="fas fa-images"></i>
+                {{ else if eq .Identifier "友联" }}
+                <i class="fas fa-user-friends"></i>
+                {{ else if eq .Identifier "关于" }}
+                <i class="fas fa-user"></i>
+                {{ end }}
+                <span>{{ .Name }}</span>
+            </div>
         </a>
         {{ end }}
         {{ end }}
@@ -196,7 +201,7 @@
     display: none;
 }
 
-.nav-item:hover .nav-submenu {
+.nav-submenu.show {
     display: block;
 }
 
