@@ -6,6 +6,7 @@ WORKDIR /src
 COPY archetypes ./archetypes
 COPY layouts ./layouts
 COPY static ./static
+COPY hugo.toml .
 COPY themes ./themes
 # 创建 content 目录的挂载点
 VOLUME /src/content
