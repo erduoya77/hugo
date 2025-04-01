@@ -1,6 +1,7 @@
 /* 基础样式 */
 :root {
     --sidebar-width: 260px;
+    --sidebar-collapsed-width: 0;
     --content-max-width: 800px;
     --primary-color: #1890ff;
     --text-color: #333;
@@ -8,6 +9,9 @@
     --background-color: #fff;
     --border-color: rgba(0, 0, 0, 0.05);
     --content-bg: rgba(255, 255, 255, 0.8);
+    --hover-bg: rgba(0, 0, 0, 0.05);
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
 }
 
 body {
@@ -24,100 +28,28 @@ body {
     min-height: 100vh;
 }
 
+/* 布局包装器 */
+.layout-wrapper {
+    display: flex;
+    min-height: 100vh;
+    position: relative;
+    width: 100%;
+    overflow-x: hidden;
+}
+
 /* 主内容区域 */
 .main-content {
-    margin-left: 250px;
+    flex: 1;
+    margin-left: var(--sidebar-width);
     padding: 2rem;
-    min-height: 100vh;
+    transition: margin-left 0.3s ease;
+    min-width: 0;
+    width: 100%;
     box-sizing: border-box;
 }
 
-/* 移动端菜单按钮 */
-.menu-toggle {
-    display: none;
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    width: 2rem;
-    height: 1.5rem;
-    flex-direction: column;
-    justify-content: space-between;
-    cursor: pointer;
-    z-index: 1001;
-}
-
-.menu-toggle span {
-    display: block;
-    width: 100%;
-    height: 2px;
-    background: var(--text-color);
-    transition: all 0.3s ease;
-}
-
-.menu-toggle.active span:nth-child(1) {
-    transform: translateY(10px) rotate(45deg);
-}
-
-.menu-toggle.active span:nth-child(2) {
-    opacity: 0;
-}
-
-.menu-toggle.active span:nth-child(3) {
-    transform: translateY(-10px) rotate(-45deg);
-}
-
-/* 暗色主题 */
-body.dark-theme {
-    --primary-color: #1890ff;
-    --text-color: #fff;
-    --text-color-light: #bbb;
-    --background-color: #1a1a1a;
-    --border-color: rgba(255, 255, 255, 0.1);
-    --content-bg: rgba(26, 26, 26, 0.8);
-    background: #121212;
-}
-
-/* 响应式布局 */
-@media screen and (max-width: 768px) {
-    .main-content {
-        margin-left: 0;
-        padding: 1rem;
-    }
-
-    .menu-toggle {
-        display: flex;
-    }
-}
-
-/* 滚动条样式 */
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.05);
-}
-
-::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 0, 0, 0.3);
-}
-
-body.dark-theme ::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-}
-
-body.dark-theme ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-body.dark-theme ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.3);
+.main-content.sidebar-collapsed {
+    margin-left: 0;
 }
 
 /* 浮动工具条 */
@@ -151,32 +83,136 @@ body.dark-theme ::-webkit-scrollbar-thumb:hover {
 .toolbar-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background: var(--hover-bg);
 }
 
 #back-to-top {
     opacity: 0;
     visibility: hidden;
+    transform: translateY(10px);
     transition: all 0.3s ease;
 }
 
 #back-to-top.show {
     opacity: 1;
     visibility: visible;
+    transform: translateY(0);
 }
 
-/* 暗色模式下的工具条样式 */
-body.dark-theme .toolbar-btn {
-    background: var(--content-bg);
-    border-color: var(--border-color);
-    color: var(--text-color);
+/* 页脚样式 */
+.site-footer {
+    padding: 1rem;
+    margin-top: auto;
+    font-size: var(--font-size-sm);
+    color: var(--text-color-light);
+    text-align: center;
 }
 
-body.dark-theme .toolbar-btn:hover {
-    background: var(--hover-bg);
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
 }
 
-/* 移动端适配 */
+.footer-link {
+    color: var(--text-color-light);
+    transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+    color: var(--primary-color);
+}
+
+.footer-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.copyright {
+    font-size: var(--font-size-sm);
+    margin: 0;
+}
+
+.beian {
+    margin: 0;
+}
+
+.beian img {
+    height: 14px;
+    margin-right: 4px;
+}
+
+.beian a {
+    color: var(--text-color-light);
+    text-decoration: none;
+}
+
+.beian a:hover {
+    color: var(--primary-color);
+}
+
+.busuanzi {
+    margin: 0;
+    font-size: var(--font-size-xs);
+}
+
+.separator {
+    margin: 0 0.5rem;
+}
+
+.powered-by {
+    margin: 0;
+    font-size: var(--font-size-xs);
+}
+
+.powered-by a {
+    color: var(--text-color-light);
+    text-decoration: none;
+}
+
+.powered-by a:hover {
+    color: var(--primary-color);
+}
+
+/* 图标样式 */
+.icon {
+    vertical-align: middle;
+}
+
+/* 暗色主题 */
+body.dark-theme {
+    --primary-color: #1890ff;
+    --text-color: #fff;
+    --text-color-light: #bbb;
+    --background-color: #1a1a1a;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --content-bg: rgba(26, 26, 26, 0.8);
+    background: #121212;
+}
+
+/* 移动端侧边栏开启时的遮罩 */
+body.sidebar-open::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+/* 响应式布局 */
 @media screen and (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+        padding: 1rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
     .floating-toolbar {
         right: 1rem;
         bottom: 1rem;
@@ -187,4 +223,40 @@ body.dark-theme .toolbar-btn:hover {
         height: 2.5rem;
         font-size: 1rem;
     }
+
+    /* 确保移动端时主内容区域不会被侧边栏影响 */
+    .main-content.sidebar-collapsed {
+        margin-left: 0;
+    }
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+body.dark-theme ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-theme ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-theme ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
 } 

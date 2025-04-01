@@ -36,6 +36,7 @@
     flex: 1;
     position: relative;
     margin-top: 5px;  /* 稍微下移气泡 */
+    min-width: 0; /* 添加这行，防止内容溢出 */
 }
 
 .memo-bubble::before {
@@ -105,9 +106,9 @@ body.dark-theme .memo-bubble::before {
     backdrop-filter: blur(10px);
     border: 1px solid rgba(0, 0, 0, 0.05);
     border-radius: 8px;
-    max-width: none;
-    white-space: pre-wrap; /* 允许自动换行 */
-    word-wrap: break-word; /* 在单词内换行 */
+    overflow-x: auto;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .memo-content pre code {
@@ -115,8 +116,9 @@ body.dark-theme .memo-bubble::before {
     background: none;
     font-size: 0.9em;
     line-height: 1.5;
-    white-space: pre-wrap; /* 允许自动换行 */
-    word-wrap: break-word; /* 在单词内换行 */
+    display: block;
+    min-width: 100%;
+    white-space: pre;
 }
 
 /* 添加代码块的语言标识 */
@@ -176,7 +178,8 @@ body.dark-theme .memo-bubble::before {
     border-radius: 8px;
     overflow: hidden;
     background: #fff;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* 音乐播放器样式 */
@@ -190,6 +193,7 @@ body.dark-theme .memo-bubble::before {
 meting-js {
     display: block;
     width: 100%;
+    box-sizing: border-box;
 }
 
 meting-js .aplayer {
@@ -199,12 +203,15 @@ meting-js .aplayer {
     border-radius: 8px !important;
     background: #fff !important;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
 meting-js .aplayer .aplayer-info {
     padding: 14px 7px 0 10px !important;
     border: none !important;
-    height: 120px !important; /* 增加高度以适应歌词显示 */
+    height: auto !important; /* 改为自适应高度 */
+    min-height: 120px !important;
 }
 
 meting-js .aplayer .aplayer-info .aplayer-music {
@@ -366,27 +373,35 @@ body.dark-theme .memo-meta {
     width: 100%;
     gap: 0.5rem;
     margin-top: 0.5rem;
+    max-width: 100%; /* 确保不超过容器宽度 */
 }
 
 .memo-images[data-count="1"] {
     grid-template-columns: 1fr;
-    max-width: none; /* 移除最大宽度限制 */
-    margin-left: 0;
-    margin-right: 0;
+}
+
+.memo-images[data-count="1"] .memo-image-wrapper {
+    padding-bottom: 0;
+    max-height: 300px; /* 限制单图最大高度 */
+    overflow: hidden;
+}
+
+.memo-images[data-count="1"] img {
+    position: static;
+    max-width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: contain;
+    margin: 0 auto;
+    display: block;
 }
 
 .memo-images[data-count="2"] {
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 1fr;
 }
 
 .memo-images[data-count="3"] {
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 1fr 1fr;
-}
-
-.memo-images[data-count="3"] > *:first-child {
-    grid-column: span 2;
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .memo-images[data-count="4"] {
@@ -400,36 +415,14 @@ body.dark-theme .memo-meta {
 .memo-images[data-count="8"],
 .memo-images[data-count="9"] {
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-}
-
-.memo-images img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 8px;
-    transition: transform 0.2s;
-    cursor: pointer;
-}
-
-/* 单张图片时的特殊处理 */
-.memo-images[data-count="1"] .memo-image-wrapper {
-    padding-bottom: 0; /* 移除固定宽高比 */
-    height: auto;
-}
-
-.memo-images[data-count="1"] img {
-    position: static; /* 恢复正常文档流 */
-    max-height: 400px; /* 只限制最大高度 */
-    width: auto; /* 宽度自适应 */
-    height: auto; /* 高度自适应 */
-    object-fit: contain; /* 保持图片比例 */
 }
 
 .memo-image-wrapper {
     position: relative;
     width: 100%;
-    padding-bottom: 100%; /* 创建1:1的宽高比 */
+    padding-bottom: 100%;
+    overflow: hidden;
+    border-radius: 8px;
 }
 
 .memo-image-wrapper img {
@@ -439,6 +432,7 @@ body.dark-theme .memo-meta {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 8px;
 }
 
 .memo-image-more {
@@ -764,4 +758,99 @@ body.dark-theme .memo-file {
 body.dark-theme .memo-file:hover {
     background: rgba(255, 255, 255, 0.15);
     color: #fff;
+}
+
+/* 移动端适配 */
+@media screen and (max-width: 768px) {
+    .memo-list {
+        padding: 1rem;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .memo-card {
+        margin-bottom: 1rem;
+    }
+
+    .memo-bubble {
+        padding: 0.8rem;
+        margin-left: 0.3rem;
+    }
+
+    .memo-avatar {
+        width: 32px;
+        height: 32px;
+    }
+
+    /* 调整代码块在移动端的显示 */
+    .memo-content pre {
+        margin: 0.5rem 0;
+        padding: 0.8rem;
+        border-radius: 4px;
+        width: 100%;
+        font-size: 0.9em;
+    }
+
+    .memo-content pre code {
+        font-size: 0.85em;
+    }
+
+    /* 调整播放器在移动端的显示 */
+    .memo-music-wrapper {
+        margin: 0.5rem 0;
+        border-radius: 4px;
+    }
+
+    meting-js .aplayer {
+        border-radius: 4px !important;
+    }
+
+    meting-js .aplayer .aplayer-info {
+        padding: 10px 7px 0 10px !important;
+    }
+
+    meting-js .aplayer .aplayer-pic {
+        width: 56px !important;
+        height: 56px !important;
+        margin: 8px !important;
+    }
+
+    /* 调整图片网格在移动端的显示 */
+    .memo-images {
+        gap: 0.3rem;
+        margin: 0.5rem 0; /* 移除负边距 */
+        width: 100%; /* 确保宽度不超出 */
+    }
+
+    .memo-images[data-count="1"] .memo-image-wrapper {
+        max-height: 200px; /* 移动端降低最大高度 */
+    }
+
+    .memo-images[data-count="1"] img {
+        max-height: 200px;
+    }
+
+    .memo-image-wrapper {
+        border-radius: 4px;
+    }
+
+    .memo-image-wrapper img {
+        border-radius: 4px;
+    }
+
+    /* 调整多图布局 */
+    .memo-images[data-count="3"],
+    .memo-images[data-count="5"],
+    .memo-images[data-count="6"],
+    .memo-images[data-count="7"],
+    .memo-images[data-count="8"],
+    .memo-images[data-count="9"] {
+        grid-template-columns: repeat(2, 1fr); /* 移动端最多显示2列 */
+    }
+
+    /* 调整引用块在移动端的显示 */
+    .memo-content blockquote {
+        margin: 0.5rem -0.8rem;
+        padding: 0.5rem 0.8rem;
+    }
 }

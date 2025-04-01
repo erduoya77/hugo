@@ -1,0 +1,7 @@
+.git
+.gitignore
+content/
+public/
+resources/
+node_modules/
+.DS_Store 

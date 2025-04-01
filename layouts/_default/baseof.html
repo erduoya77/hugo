@@ -2,13 +2,18 @@
 <html lang="{{ .Site.LanguageCode }}">
 <head>
     {{ partial "head.html" . }}
+    <!-- 引入 Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- 引入基础样式 -->
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
 </head>
 <body>
-    <div class="wrapper">
+    <div class="layout-wrapper">
         {{ partial "sidebar.html" . }}
-        <main class="main">
+        <div class="main-content">
             {{ block "main" . }}{{ end }}
-        </main>
+        </div>
     </div>
 
     <!-- 浮动工具条 -->
@@ -26,145 +31,4 @@
     <script src="/js/sidebar.js"></script>
     {{ block "scripts" . }}{{ end }}
 </body>
-</html>
-
-<style>
-/* 浮动工具条样式 */
-.floating-toolbar {
-    position: fixed;
-    right: 2rem;
-    bottom: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    z-index: 1000;
-}
-
-.toolbar-btn {
-    width: 40px;
-    height: 40px;
-    border: none;
-    border-radius: 50%;
-    background: var(--content-bg);
-    color: var(--text);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.1rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.2s ease;
-}
-
-.toolbar-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    background: var(--hover-bg);
-}
-
-#back-to-top {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(10px);
-    transition: all 0.3s ease;
-}
-
-#back-to-top.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-/* 侧边栏底部样式 */
-.site-footer {
-    padding: 1rem;
-    margin-top: auto;
-    font-size: var(--font-size-sm);
-    color: #666;
-    text-align: center;
-}
-
-.footer-links {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
-.footer-link {
-    color: #666;
-    transition: color 0.2s ease;
-}
-
-.footer-link:hover {
-    color: var(--primary-color);
-}
-
-.footer-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.copyright {
-    font-size: var(--font-size-sm);
-    margin: 0;
-}
-
-.beian {
-    margin: 0;
-}
-
-.beian img {
-    height: 14px;
-    margin-right: 4px;
-}
-
-.beian a {
-    color: #666;
-    text-decoration: none;
-}
-
-.beian a:hover {
-    color: var(--primary-color);
-}
-
-.busuanzi {
-    margin: 0;
-    font-size: var(--font-size-xs);
-}
-
-.separator {
-    margin: 0 0.5rem;
-}
-
-.powered-by {
-    margin: 0;
-    font-size: var(--font-size-xs);
-}
-
-.powered-by a {
-    color: #666;
-    text-decoration: none;
-}
-
-.powered-by a:hover {
-    color: var(--primary-color);
-}
-
-/* 图标样式 */
-.icon {
-    vertical-align: middle;
-}
-
-/* 确保侧边栏在内容少时也能显示在底部 */
-.sidebar {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-.sidebar-content {
-    flex: 1;
-}
-</style> 
+</html> 

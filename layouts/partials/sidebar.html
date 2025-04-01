@@ -1,17 +1,44 @@
 {{ $currentPage := . }}
 <aside class="sidebar">
-    <!-- 站点标题 -->
-    <a href="/" class="site-title">{{ .Site.Title }}</a>
-    <div class="site-subtitle">个人记录分享</div>
+    <!-- 折叠按钮 -->
+    <button class="sidebar-toggle" aria-label="折叠侧边栏" title="折叠/展开侧边栏">
+        <i class="fas fa-angle-left"></i>
+    </button>
 
-    <!-- 导航菜单 -->
-    <nav class="nav-menu">
-        {{ range .Site.Menus.main }}
-        {{ $active := or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}
-        {{ $url := .URL | absLangURL }}
-        {{ $pageUrl := $currentPage.Permalink | absLangURL }}
-        {{ if .HasChildren }}
-        <div class="nav-item">
+    <div class="sidebar-content">
+        <!-- 站点标题 -->
+        <a href="/" class="site-title">{{ .Site.Title }}</a>
+        <div class="site-subtitle">个人记录分享</div>
+
+        <!-- 导航菜单 -->
+        <nav class="nav-menu">
+            {{ range .Site.Menus.main }}
+            {{ $active := or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}
+            {{ $url := .URL | absLangURL }}
+            {{ $pageUrl := $currentPage.Permalink | absLangURL }}
+            {{ if .HasChildren }}
+            <div class="nav-item">
+                <a href="{{ .URL }}" class="nav-link{{ if eq $url $pageUrl }} active{{ end }}">
+                    <div class="nav-link-content">
+                        {{ if .Params.icon }}
+                        <i class="{{ .Params.icon }}"></i>
+                        {{ end }}
+                        <span>{{ .Name }}</span>
+                    </div>
+                    <i class="fas fa-chevron-down nav-link-arrow"></i>
+                </a>
+                <div class="nav-submenu">
+                    {{ range .Children }}
+                    <a href="{{ .URL }}" class="nav-sublink" target="_blank">
+                        {{ if .Params.icon }}
+                        <i class="{{ .Params.icon }}"></i>
+                        {{ end }}
+                        <span>{{ .Name }}</span>
+                    </a>
+                    {{ end }}
+                </div>
+            </div>
+            {{ else }}
             <a href="{{ .URL }}" class="nav-link{{ if eq $url $pageUrl }} active{{ end }}">
                 <div class="nav-link-content">
                     {{ if .Params.icon }}
@@ -19,163 +46,142 @@
                     {{ end }}
                     <span>{{ .Name }}</span>
                 </div>
-                <i class="fas fa-chevron-down nav-link-arrow"></i>
             </a>
-            <div class="nav-submenu">
-                {{ range .Children }}
-                <a href="{{ .URL }}" class="nav-sublink" target="_blank">
-                    {{ if .Params.icon }}
-                    <i class="{{ .Params.icon }}"></i>
-                    {{ end }}
-                    <span>{{ .Name }}</span>
+            {{ end }}
+            {{ end }}
+        </nav>
+
+        <!-- 搜索框 -->
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="搜索文章">
+        </div>
+
+        <!-- 标签云 -->
+        <div class="tags-section">
+            <div class="section-title">
+                <i class="fas fa-tags"></i>
+                <span>标签</span>
+            </div>
+            <div class="tags-container">
+                {{ range .Site.Taxonomies.tags.ByCount }}
+                <a href="{{ .Page.RelPermalink }}" class="tag-item">
+                    #{{ .Page.Title }}
                 </a>
                 {{ end }}
             </div>
         </div>
-        {{ else }}
-        <a href="{{ .URL }}" class="nav-link{{ if eq $url $pageUrl }} active{{ end }}">
-            <div class="nav-link-content">
-                {{ if .Params.icon }}
-                <i class="{{ .Params.icon }}"></i>
-                {{ end }}
-                <span>{{ .Name }}</span>
+
+        <!-- 页脚 -->
+        <footer class="sidebar-footer">
+            <div class="footer-links">
+                <a href="/rss.xml" class="footer-link" title="RSS">
+                    <i class="fas fa-rss"></i>
+                </a>
+                <a href="mailto:{{ .Site.Params.email }}" class="footer-link" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
             </div>
-        </a>
-        {{ end }}
-        {{ end }}
-    </nav>
-
-    <!-- 搜索框 -->
-    <div class="search-container">
-        <!-- <i class="fas fa-search search-icon"></i> -->
-        <input type="text" class="search-input" placeholder="搜索文章">
+            <div class="copyright">© {{ now.Format "2006" }} {{ .Site.Title }}</div>
+            <div class="beian">
+                <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">
+                    <img src="/images/beian.png" alt="备案">
+                    鄂ICP备2023001339号
+                </a>
+            </div>
+            <div class="busuanzi">
+                <span id="busuanzi_container_site_pv">
+                    <i class="fas fa-eye"></i>
+                    <span id="busuanzi_value_site_pv"></span>
+                </span>
+                <span class="separator">|</span>
+                <span id="busuanzi_container_site_uv">
+                    <i class="fas fa-user"></i>
+                    <span id="busuanzi_value_site_uv"></span>
+                </span>
+            </div>
+            <div class="powered-by">
+                Powered by <a href="https://gohugo.io/" target="_blank">Hugo</a>
+            </div>
+        </footer>
     </div>
-
-    <!-- 标签云 -->
-    <div class="tags-section">
-        <div class="section-title">
-            <i class="fas fa-tags"></i>
-            <span>标签</span>
-        </div>
-        <div class="tags-container">
-            {{ range .Site.Taxonomies.tags.ByCount }}
-            <a href="{{ .Page.RelPermalink }}" class="tag-item">
-                #{{ .Page.Title }}
-            </a>
-            {{ end }}
-        </div>
-    </div>
-
-    <!-- 页脚 -->
-    <footer class="sidebar-footer">
-        <div class="footer-links">
-            <a href="/rss.xml" class="footer-link" title="RSS">
-                <i class="fas fa-rss"></i>
-            </a>
-            <a href="mailto:{{ .Site.Params.email }}" class="footer-link" title="Email">
-                <i class="fas fa-envelope"></i>
-            </a>
-        </div>
-        <div class="copyright">© {{ now.Format "2006" }} {{ .Site.Title }}</div>
-        <div class="beian">
-            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">
-                <img src="/images/beian.png" alt="备案">
-                鄂ICP备2023001339号
-            </a>
-        </div>
-        <div class="busuanzi">
-            <span id="busuanzi_container_site_pv">
-                <i class="fas fa-eye"></i>
-                <span id="busuanzi_value_site_pv"></span>
-            </span>
-            <span class="separator">|</span>
-            <span id="busuanzi_container_site_uv">
-                <i class="fas fa-user"></i>
-                <span id="busuanzi_value_site_uv"></span>
-            </span>
-        </div>
-        <div class="powered-by">
-            Powered by <a href="https://gohugo.io/" target="_blank">Hugo</a>
-        </div>
-    </footer>
 </aside>
 
 <!-- 移动端菜单按钮 -->
-<div class="menu-toggle">
+<button class="menu-toggle">
     <span></span>
     <span></span>
     <span></span>
-</div>
+</button>
 
 <!-- 引入CSS -->
 <link rel="stylesheet" href="/css/sidebar.css">
 
 <style>
 .sidebar {
-    padding: 1.5rem;
     background: var(--content-bg);
     border-right: 1px solid var(--border-color);
     height: 100vh;
-    position: fixed;
-    width: 250px;
-    overflow-y: auto;
+    width: var(--sidebar-width);
+    box-sizing: border-box;
+}
+
+.sidebar-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .site-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-color);
+    text-decoration: none;
     margin-bottom: 0.5rem;
 }
 
-.site-title a {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: var(--primary);
-    text-decoration: none;
-    padding: 0.3rem 0.5rem;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    display: inline-block;
-}
-
-.site-description {
-    color: var(--secondary);
-    margin-bottom: 1.5rem;
+.site-subtitle {
+    color: var(--text-color-light);
     font-size: 0.9rem;
+    margin-bottom: 2rem;
 }
 
 .nav-menu {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 .nav-item {
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
 }
 
 .nav-link {
     display: flex;
     align-items: center;
-    padding: 0.5rem;
-    color: var(--text);
+    justify-content: space-between;
+    padding: 0.8rem 1rem;
+    color: var(--text-color);
     text-decoration: none;
+    border-radius: 6px;
     transition: all 0.2s ease;
-    font-size: 0.95rem;
-    border-radius: 4px;
 }
 
 .nav-link:hover, .nav-link.active {
-    color: var(--link-color);
-    background-color: var(--hover-bg);
+    background: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.nav-link-content {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
 }
 
 .nav-link i {
     width: 1.2em;
-    text-align: center;
-    margin-right: 0.5rem;
-    font-size: 0.9em;
+    font-size: 1.1em;
 }
 
 .nav-submenu {
-    margin-left: 2.2rem;
-    margin-top: 0.2rem;
+    margin: 0.5rem 0 0.5rem 2.5rem;
     display: none;
 }
 
@@ -184,18 +190,19 @@
 }
 
 .nav-sublink {
-    display: block;
-    padding: 0.3rem 0.5rem;
-    color: var(--secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.6rem 1rem;
+    color: var(--text-color-light);
     text-decoration: none;
-    font-size: 0.9rem;
+    border-radius: 6px;
     transition: all 0.2s ease;
-    border-radius: 4px;
 }
 
 .nav-sublink:hover {
-    color: var(--link-color);
-    background-color: var(--hover-bg);
+    background: var(--hover-bg);
+    color: var(--primary-color);
 }
 
 .search-container {

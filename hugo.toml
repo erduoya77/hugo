@@ -105,7 +105,7 @@ theme = 'PaperMod'
   parent = "工具"
   weight = 1
   [menu.main.params]
-    icon = "fa-solid fa-sticky-note"
+    icon = "fa-solid fa-hard-drive"
 
 [[menu.main]]
   name = "监控"
