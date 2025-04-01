@@ -4,12 +4,9 @@ WORKDIR /src
 
 # 复制除了 content 目录外的所有文件
 COPY archetypes ./archetypes
-COPY assets ./assets
 COPY layouts ./layouts
 COPY static ./static
-COPY config.toml .
 COPY themes ./themes
-
 # 创建 content 目录的挂载点
 VOLUME /src/content
 
